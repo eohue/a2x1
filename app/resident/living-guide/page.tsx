@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { useLivingGuideStore, LivingGuide } from '../../../stores/useLivingGuideStore';
 import ReactMarkdown from 'react-markdown';
 import dynamic from 'next/dynamic';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 export default function LivingGuidePage() {
   const { guides, fetchGuides, loading, error, editingGuide } = useLivingGuideStore();
   const [selectedGuide, setSelectedGuide] = useState<string | null>(null);
-  const { t } = useTranslation();
+  const t = useTranslations('common');
 
   useEffect(() => {
     fetchGuides({ onlyApproved: true });
@@ -52,6 +52,7 @@ export default function LivingGuidePage() {
 }
 
 function GuideDetail({ id }: { id: string }) {
+  const t = useTranslations('common');
   const {
     guides,
     editingGuide,
@@ -91,7 +92,6 @@ function GuideDetail({ id }: { id: string }) {
               height={300}
               preview="edit"
               textareaProps={{ 'aria-label': '생활백서 내용 편집' }}
-              disabled={loading}
             />
           </div>
           <div className="flex gap-2">

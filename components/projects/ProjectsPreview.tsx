@@ -21,8 +21,9 @@ export interface ProjectPreview {
 interface ProjectsPreviewProps {
   /**
    * Array of projects to display (shows latest 3-4)
+   * If not provided, mock data will be used
    */
-  projects: ProjectPreview[];
+  projects?: ProjectPreview[];
   
   /**
    * Maximum number of projects to display
@@ -47,8 +48,44 @@ export const ProjectsPreview: React.FC<ProjectsPreviewProps> = ({
   const t = useTranslations('common');
   const tProjects = useTranslations('projects');
 
+  // Mock data for development/demo purposes
+  const mockProjects: ProjectPreview[] = [
+    {
+      id: '1',
+      title: '강남 공유주택 프로젝트',
+      description: '젊은 직장인들을 위한 혁신적인 공유주택 프로젝트입니다. 개인 공간과 공용 공간의 완벽한 조화를 추구합니다.',
+      location: '서울특별시 강남구',
+      tags: ['공유주택', '청년', '직장인'],
+      status: 'recruiting'
+    },
+    {
+      id: '2',
+      title: '마포구 가족형 사회주택',
+      description: '3-4인 가족을 위한 안정적이고 경제적인 주거공간을 제공하는 사회주택 프로젝트입니다.',
+      location: '서울특별시 마포구',
+      tags: ['가족형', '사회주택', '안정적'],
+      status: 'construction'
+    },
+    {
+      id: '3',
+      title: '성북구 시니어 공동주택',
+      description: '활동적인 시니어들을 위한 커뮤니티 중심의 공동주택 프로젝트입니다.',
+      location: '서울특별시 성북구',
+      tags: ['시니어', '커뮤니티', '공동주택'],
+      status: 'completed'
+    },
+    {
+      id: '4',
+      title: '은평구 청년창업 공유주택',
+      description: '청년 창업가들을 위한 주거와 업무공간이 결합된 혁신적인 공유주택입니다.',
+      location: '서울특별시 은평구',
+      tags: ['청년창업', '공유오피스', '혁신'],
+      status: 'planning'
+    }
+  ];
+
   // Get the latest projects (limited by maxItems)
-  const latestProjects = projects.slice(0, maxItems);
+  const latestProjects = projects ? projects.slice(0, maxItems) : mockProjects.slice(0, maxItems);
 
   // Status color mapping
   const getStatusColor = (status?: string) => {
@@ -83,7 +120,7 @@ export const ProjectsPreview: React.FC<ProjectsPreviewProps> = ({
   };
 
   // Empty state
-  if (!projects || projects.length === 0) {
+  if (latestProjects.length === 0) {
     return (
       <section className={`py-12 px-4 ${className}`}>
         <div className="max-w-7xl mx-auto">

@@ -4,7 +4,7 @@ import { useLivingGuideStore, LivingGuide } from '../../../stores/useLivingGuide
 import { useNotificationStore } from '../../../stores/useNotificationStore';
 import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 
 const STATUS_LABELS: Record<LivingGuide["status"], string> = {
   draft: '작성중',
@@ -25,7 +25,7 @@ export default function AdminLivingGuidePage() {
   const [newLoading, setNewLoading] = useState(false);
   const [newError, setNewError] = useState<string | null>(null);
   const router = useRouter();
-  const { t } = useTranslation();
+  const t = useTranslations('common');
 
   useEffect(() => { fetchGuides(); }, [fetchGuides]);
   useEffect(() => { fetchNotifications(); }, [fetchNotifications]);
@@ -200,6 +200,7 @@ export default function AdminLivingGuidePage() {
 }
 
 function GuideDetail({ id }: { id: string }) {
+  const t = useTranslations('common');
   const { guides } = useLivingGuideStore();
   const guide = guides.find((g: LivingGuide) => g.id === id);
   const [history, setHistory] = React.useState<any[]>([]);
@@ -242,7 +243,7 @@ function GuideDetail({ id }: { id: string }) {
         <ReactMarkdown>{guide.content}</ReactMarkdown>
       </div>
       <div className="flex gap-2 text-xs text-gray-500 mb-4">
-        <span>상태: {t(guide.status)}</span>
+        <span>상태: {STATUS_LABELS[guide.status]}</span>
         <span>버전: {guide.version}</span>
         <span>작성자: {guide.created_by?.name || guide.created_by?.id}</span>
         {guide.approved_by && <span>승인자: {guide.approved_by?.name || guide.approved_by?.id}</span>}

@@ -105,7 +105,7 @@ export default function GroupListPage() {
                 <Button onClick={() => joinGroup(group.id)} aria-label="참여">참여</Button>
                 <Button onClick={() => leaveGroup(group.id)} aria-label="탈퇴">탈퇴</Button>
                 <Button onClick={() => { setEditId(group.id); setEditGroup({ name: group.name, description: group.description || '', thumbnail_url: group.thumbnail_url || '' }); }} aria-label="수정">수정</Button>
-                <Button onClick={() => deleteGroup(group.id)} aria-label="삭제" variant="destructive">삭제</Button>
+                <Button onClick={() => deleteGroup(group.id)} aria-label="삭제" variant="danger">삭제</Button>
               </div>
               {editId === group.id && (
                 <form className="mt-2 flex flex-col gap-2" onSubmit={handleEdit}>
@@ -145,7 +145,7 @@ export default function GroupListPage() {
             {members.map((m) => (
               <li key={m.id} className="py-2 flex items-center justify-between">
                 <span>{m.name || m.id}</span>
-                <Button onClick={() => removeMember(currentGroup.id, m.id)} aria-label="강퇴" variant="destructive">강퇴</Button>
+                <Button onClick={() => removeMember(currentGroup.id, m.id)} aria-label="강퇴" variant="danger">강퇴</Button>
               </li>
             ))}
           </ul>

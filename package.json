@@ -22,12 +22,14 @@
     "@heroicons/react": "^2.2.0",
     "@uiw/react-md-editor": "^4.0.7",
     "clsx": "^2.1.1",
+    "critters": "^0.0.23",
     "firebase": "^11.9.1",
     "i18next": "^25.2.1",
     "json2csv": "6.0.0-alpha.2",
     "next": "15.3.4",
     "next-i18next": "^15.4.2",
     "next-intl": "^4.3.1",
+    "next-sitemap": "^4.2.3",
     "pdfkit": "^0.17.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -53,6 +55,7 @@
     "@storybook/nextjs": "^9.0.13",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.9",
+    "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/typography": "^0.5.15",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -71,5 +74,22 @@
     "storybook": "^9.0.13",
     "ts-jest": "^29.4.0",
     "typescript": "^5"
-  }
+  },
+  "description": "Next.js 기반의 사회주택 플랫폼으로, 다국어 지원(한국어/영어)과 현대적인 UI/UX를 제공합니다.",
+  "main": "jest.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eohue/a2x1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/eohue/a2x1/issues"
+  },
+  "homepage": "https://github.com/eohue/a2x1#readme"
 }
