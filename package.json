@@ -9,8 +9,13 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:ci": "jest --ci --coverage --watchAll=false",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "analyze": "ANALYZE=true next build",
+    "type-check": "tsc --noEmit",
+    "deploy:vercel": "vercel --prod",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
