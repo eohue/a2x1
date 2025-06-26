@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "buildCommand": "npm install --no-workspaces && npm run build",
+  "installCommand": "npm install --no-workspaces",
   "headers": [
     {
       "source": "/(.*)",
