@@ -4,16 +4,6 @@
   "outputDirectory": ".next",
   "installCommand": "npm ci",
   "devCommand": "npm run dev",
-  "env": {
-    "NEXT_PUBLIC_API_URL": "@next_public_api_url",
-    "NEXT_PUBLIC_SOCKET_URL": "@next_public_socket_url"
-  },
-  "build": {
-    "env": {
-      "NEXT_PUBLIC_API_URL": "@next_public_api_url",
-      "NEXT_PUBLIC_SOCKET_URL": "@next_public_socket_url"
-    }
-  },
   "functions": {
     "app/api/**/*.js": {
       "runtime": "nodejs18.x"
