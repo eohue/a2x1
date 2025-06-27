@@ -1,18 +1,13 @@
 {
-  "version": 2,
-  "builds": [
+  "buildCommand": "cd apps/frontend && npm run build",
+  "outputDirectory": "apps/frontend/.next",
+  "devCommand": "cd apps/frontend && npm run dev",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "rewrites": [
     {
-      "src": "apps/frontend/package.json",  
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "apps/frontend/.next"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "apps/frontend/$1"
+      "source": "/(.*)",
+      "destination": "/"
     }
   ]
 }
