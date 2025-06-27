@@ -1,0 +1,97 @@
+{
+  "navigation": {
+    "home": "홈",
+    "projects": "프로젝트",
+    "application": "입주 신청",
+    "community": "커뮤니티",
+    "admin": "관리자",
+    "residentLogin": "입주민 로그인"
+  },
+  "hero": {
+    "title": "더 나은 사회주택, 더 나은 커뮤니티",
+    "subtitle": "비전·프로젝트·커뮤니티·운영을 하나로 묶은 통합 플랫폼으로 입주민의 자발적 소통과 성장, 사회적 임팩트를 실현합니다",
+    "applyButton": "입주 신청하기",
+    "exploreButton": "프로젝트 둘러보기"
+  },
+  "metrics": {
+    "monthlyVisitors": "월 방문자 수",
+    "approvalTime": "평균 승인 시간",
+    "weeklyPosts": "주간 게시물",
+    "totalResidents": "총 입주민"
+  },
+  "projects": {
+    "title": "우리의 프로젝트",
+    "subtitle": "아이부키가 만들어가는 다양한 사회주택 프로젝트를 만나보세요. 각 프로젝트는 고유한 커뮤니티와 특색있는 주거 환경을 제공합니다."
+  },
+  "community": {
+    "title": "함께하는 커뮤니티",
+    "subtitle": "입주민들의 생생한 일상과 활동을 들여다보고, 함께 만들어가는 공동체의 따뜻한 이야기를 경험해보세요."
+  },
+  "cta": {
+    "title": "우리 커뮤니티에 함께하실 준비가 되셨나요?",
+    "subtitle": "더 나은 삶을 향한 첫걸음을 내딛어보세요. 사회주택에 입주 신청하고 연결, 성장, 긍정적인 사회적 임팩트를 중시하는 활기찬 공동체의 일원이 되어보세요.",
+    "button": "입주 신청하기"
+  },
+  "footer": {
+    "description": "아이부키는 사회주택을 통해 더 나은 공동체를 만들어가는 사회적 기업입니다. 지속가능한 주거 문화와 따뜻한 이웃과의 만남을 만들어갑니다.",
+    "services": "서비스",
+    "support": "고객지원",
+    "company": "회사",
+    "contact": "연락처",
+    "address": "서울특별시 강남구 테헤란로 123",
+    "phone": "전화: 02-1234-5678",
+    "email": "이메일: hello@ibookee.kr",
+    "hours": "운영시간: 평일 09:00 - 18:00",
+    "businessNumber": "사업자등록번호: 123-45-67890 | 대표자: 김대표",
+    "copyright": "© 2024 아이부키(ibookee). All rights reserved."
+  },
+  "common": {
+    "home": "홈",
+    "login": "로그인",
+    "logout": "로그아웃",
+    "register": "회원가입",
+    "admin": "관리자",
+    "user": "사용자",
+    "language": "언어",
+    "korean": "한국어",
+    "english": "영어",
+    "search": "검색",
+    "submit": "제출",
+    "cancel": "취소",
+    "save": "저장",
+    "edit": "수정",
+    "delete": "삭제",
+    "approve": "승인",
+    "reject": "거절",
+    "dashboard": "대시보드",
+    "members": "회원",
+    "reports": "민원",
+    "contents": "콘텐츠",
+    "living_guide": "생활백서",
+    "admin_living_guide_approval": "생활백서 승인 관리",
+    "notifications": "알림",
+    "guide_toc": "생활백서 목차",
+    "no_approved_guides": "승인된 생활백서가 아직 없습니다.",
+    "select_section": "상단에서 섹션을 선택하세요.",
+    "submit_for_approval": "승인 요청",
+    "status": "상태",
+    "add_section": "섹션 추가",
+    "section_title": "제목(섹션명)",
+    "section_content": "내용(마크다운 지원)",
+    "guide_list_table": "생활백서 목록 테이블",
+    "detail": "상세",
+    "guide_detail": "생활백서 상세",
+    "change_history": "변경 이력",
+    "history_table": "이력 테이블",
+    "rollback": "롤백",
+    "loading": "로딩 중..."
+  },
+  "button": {
+    "loading": "로딩 중...",
+    "loadingSpinner": "로딩 스피너"
+  },
+  "input": {
+    "required": "필수",
+    "placeholder": "텍스트를 입력하세요..."
+  }
+}

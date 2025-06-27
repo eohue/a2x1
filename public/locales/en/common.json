@@ -1,0 +1,97 @@
+{
+  "navigation": {
+    "home": "Home",
+    "projects": "Projects",
+    "application": "Apply",
+    "community": "Community",
+    "admin": "Admin",
+    "residentLogin": "Resident Login"
+  },
+  "hero": {
+    "title": "Better Social Housing, Better Community",
+    "subtitle": "An integrated platform that combines vision, projects, community, and operations to realize voluntary communication, growth, and social impact for residents",
+    "applyButton": "Apply for Housing",
+    "exploreButton": "Explore Projects"
+  },
+  "metrics": {
+    "monthlyVisitors": "Monthly Visitors",
+    "approvalTime": "Average Approval Time",
+    "weeklyPosts": "Weekly Posts",
+    "totalResidents": "Total Residents"
+  },
+  "projects": {
+    "title": "Our Projects",
+    "subtitle": "Discover various social housing projects created by ibookee. Each project provides a unique community and distinctive living environment."
+  },
+  "community": {
+    "title": "Community Together",
+    "subtitle": "Experience the vibrant daily life and activities of residents, and warm stories of community building together."
+  },
+  "cta": {
+    "title": "Ready to Join Our Community?",
+    "subtitle": "Take the first step towards better living. Apply for social housing and become part of a vibrant, supportive community that values connection, growth, and positive social impact.",
+    "button": "Apply for Housing"
+  },
+  "footer": {
+    "description": "ibookee is a social enterprise creating better communities through social housing. We create sustainable housing culture and warm encounters with neighbors.",
+    "services": "Services",
+    "support": "Support",
+    "company": "Company",
+    "contact": "Contact",
+    "address": "123 Teheran-ro, Gangnam-gu, Seoul",
+    "phone": "Phone: 02-1234-5678",
+    "email": "Email: hello@ibookee.kr",
+    "hours": "Hours: Weekdays 09:00 - 18:00",
+    "businessNumber": "Business Registration: 123-45-67890 | Representative: Kim",
+    "copyright": "© 2024 ibookee. All rights reserved."
+  },
+  "common": {
+    "home": "Home",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "admin": "Admin",
+    "user": "User",
+    "language": "Language",
+    "korean": "Korean",
+    "english": "English",
+    "search": "Search",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "approve": "Approve",
+    "reject": "Reject",
+    "dashboard": "Dashboard",
+    "members": "Members",
+    "reports": "Reports",
+    "contents": "Contents",
+    "living_guide": "Living Guide",
+    "admin_living_guide_approval": "Living Guide Approval Management",
+    "notifications": "Notifications",
+    "guide_toc": "Living Guide Table of Contents",
+    "no_approved_guides": "No approved living guides yet.",
+    "select_section": "Select a section from above.",
+    "submit_for_approval": "Submit for Approval",
+    "status": "Status",
+    "add_section": "Add Section",
+    "section_title": "Title (Section Name)",
+    "section_content": "Content (Markdown Supported)",
+    "guide_list_table": "Living Guide List Table",
+    "detail": "Detail",
+    "guide_detail": "Living Guide Detail",
+    "change_history": "Change History",
+    "history_table": "History Table",
+    "rollback": "Rollback",
+    "loading": "Loading..."
+  },
+  "button": {
+    "loading": "Loading...",
+    "loadingSpinner": "Loading spinner"
+  },
+  "input": {
+    "required": "required",
+    "placeholder": "Enter text..."
+  }
+}

@@ -1,14 +1,9 @@
 {
   "name": "A2X1",
   "version": "1.0.0",
-  "description": "",
+  "description": "Next.js 기반의 사회주택 플랫폼으로, 다국어 지원(한국어/영어)과 현대적인 UI/UX를 제공합니다.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "private": true,
   "packageManager": "pnpm@10.12.2",
   "workspaces": [
     "apps/*",
@@ -16,6 +11,33 @@
     "libs/*",
     "infra/*"
   ],
+  "scripts": {
+    "dev": "cd apps/frontend && npm run dev",
+    "build": "cd apps/frontend && npm run build",
+    "start": "cd apps/frontend && npm run start",
+    "lint": "cd apps/frontend && npm run lint",
+    "test": "cd apps/frontend && npm run test",
+    "test:watch": "cd apps/frontend && npm run test:watch",
+    "test:ci": "cd apps/frontend && npm run test:ci",
+    "storybook": "cd apps/frontend && npm run storybook",
+    "build-storybook": "cd apps/frontend && npm run build-storybook",
+    "analyze": "cd apps/frontend && npm run analyze",
+    "type-check": "cd apps/frontend && npm run type-check",
+    "deploy:vercel": "vercel --prod",
+    "postbuild": "cd apps/frontend && npm run postbuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eohue/a2x1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/eohue/a2x1/issues"
+  },
+  "homepage": "https://github.com/eohue/a2x1#readme",
   "lint-staged": {
     "*.{js,ts,tsx,jsx,json,md}": [
       "prettier --write",
