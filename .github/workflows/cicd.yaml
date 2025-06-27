@@ -1,0 +1,94 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ap-northeast-2
+      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      EKS_CLUSTER: ${{ secrets.EKS_CLUSTER }}
+      HELM_RELEASE: ibookee-platform
+      CHART_PATH: infra/helm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint & Test
+        run: |
+          pnpm --filter api-gateway lint && pnpm --filter api-gateway test
+          pnpm --filter frontend lint && pnpm --filter frontend test
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and Push Docker images (api-gateway)
+        run: |
+          docker build -t $ECR_REPOSITORY/api-gateway:latest -f apps/api-gateway/Dockerfile .
+          docker push $ECR_REPOSITORY/api-gateway:latest
+
+      - name: Build and Push Docker images (frontend)
+        run: |
+          docker build -t $ECR_REPOSITORY/frontend:latest -f apps/frontend/Dockerfile .
+          docker push $ECR_REPOSITORY/frontend:latest
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: 'latest'
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER
+
+      - name: Helm upgrade (Blue/Green)
+        run: |
+          helm upgrade --install $HELM_RELEASE $CHART_PATH \
+            --set image.repository=$ECR_REPOSITORY/api-gateway,image.tag=latest \
+            --set blueGreen.enabled=true \
+            --wait
+
+      - name: Health check
+        run: |
+          kubectl rollout status deployment/$HELM_RELEASE-blue || exit 1
+
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          helm rollback $HELM_RELEASE
+
+      - name: Notify (optional)
+        if: always()
+        run: |
+          echo "Deployment finished with status: ${{ job.status }}" 

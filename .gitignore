@@ -1,0 +1,16 @@
+# Node
+node_modules/
+.env*
+dist/
+.next/
+coverage/
+pnpm-lock.yaml
+.DS_Store
+*.log
+.idea/
+.vscode/
+*.local
+*.swp
+apps/*/node_modules/
+services/*/node_modules/
+libs/*/node_modules/ 

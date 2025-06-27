@@ -1,0 +1,14 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "^@common/(.*)$": "<rootDir>/../../../libs/common/$1",
+    "^@core/guards/(.*)$": "<rootDir>/../../../src/guards/$1",
+    "^@core/decorators/(.*)$": "<rootDir>/../../../src/decorators/$1"
+  }
+}

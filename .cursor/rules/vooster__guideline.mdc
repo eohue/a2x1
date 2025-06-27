@@ -1,0 +1,378 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# 아이부키(ibookee) Unified Platform — Code Guideline
+
+---
+
+## 1. Project Overview
+
+This project is a unified platform for ibookee, integrating the Public Site, Resident Portal, and Admin Portal into a single monorepo. The architecture is based on:
+
+- **Frontend:** Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, Shadcn UI, Zustand
+- **Backend:** Node.js 20, NestJS 10, TypeORM, PostgreSQL 15, Redis 7, Socket.io
+- **Infrastructure:** AWS EKS, RDS, S3, CloudFront, Terraform, GitHub Actions CI/CD
+- **Key Decisions:**  
+    - Monorepo (feature/domain-based) with separation between frontend and backend apps
+    - BFF (Backend-for-Frontend) pattern using NestJS API Gateway
+    - SSR/CSR hybrid with SEO, accessibility, and performance focus
+    - Multi-tenant, RBAC, and secure-by-design (OAuth2, JWT, AES256)
+
+---
+
+## 2. Core Principles
+
+1. **Explicitness:** Code MUST be self-explanatory; avoid ambiguity in logic and naming.
+2. **Single Responsibility:** Each file/function/class MUST have one clear purpose.
+3. **Consistency:** Follow established patterns and naming conventions across all modules.
+4. **Security by Default:** All code MUST handle authentication, authorization, and data validation as first-class concerns.
+5. **Testability:** All business logic MUST be unit/integration testable and covered by automated tests.
+
+---
+
+## 3. Language-Specific Guidelines
+
+### 3.1 Frontend (Next.js, React, TypeScript)
+
+#### File Organization
+
+- MUST use feature/domain-based folders under `apps/frontend/` (e.g., `/app/community/`, `/components/community/`)
+- Shared utilities, types, and hooks MUST reside in `libs/`
+- Page components go in `/app/`, UI components in `/components/`, hooks in `/hooks/`, and API logic in `/lib/`
+
+```typescript
+// apps/frontend/components/community/CommunityFeed.tsx
+export function CommunityFeed() { ... }
+```
+
+#### Import/Dependency Management
+
+- MUST use absolute imports from project root (e.g., `import { CommunityFeed } from '@/components/community/CommunityFeed'`)
+- MUST NOT use deep relative imports (`../../../`)
+- Only import what is necessary; avoid circular dependencies.
+
+```typescript
+// MUST: Absolute import
+import { CommunityFeed } from '@/components/community/CommunityFeed'
+```
+
+#### Error Handling
+
+- All API calls MUST use `try/catch` and handle errors gracefully in UI.
+- User-facing errors MUST be translated and accessible.
+- MUST use error boundaries for React component tree.
+
+```typescript
+// MUST: Error boundary usage
+<ErrorBoundary fallback={<ErrorMessage />}>
+  <CommunityFeed />
+</ErrorBoundary>
+```
+
+---
+
+### 3.2 Backend (NestJS, TypeScript)
+
+#### File Organization
+
+- MUST use domain-driven modules under `src/modules/` (e.g., `src/modules/user/`)
+- Shared logic in `src/common/`, DTOs in `dto/`, entities in `entities/`
+
+```typescript
+// src/modules/user/user.controller.ts
+@Controller('users')
+export class UserController { ... }
+```
+
+#### Import/Dependency Management
+
+- MUST use NestJS Dependency Injection for services/repositories.
+- MUST NOT import modules or services directly bypassing DI.
+- Only import from `libs/` for shared code.
+
+```typescript
+// MUST: DI usage
+@Injectable()
+export class UserService {
+  constructor(private readonly repo: UserRepository) {}
+}
+```
+
+#### Error Handling
+
+- All controller endpoints MUST use global exception filters.
+- Validation errors MUST return 400 with clear messages.
+- Sensitive errors MUST NOT be exposed to clients.
+
+```typescript
+// MUST: Use class-validator
+@UsePipes(new ValidationPipe())
+@Post()
+async create(@Body() dto: CreateUserDto) { ... }
+```
+
+---
+
+### 3.3 Shared Libraries
+
+- All shared types and utilities MUST be placed in `libs/types/` and `libs/common/`
+- MUST version and document all shared APIs
+
+---
+
+## 4. Code Style Rules
+
+### 4.1 MUST Follow
+
+#### 1. Type Safety
+
+- All code MUST be fully typed (no `any` or implicit `any`)
+- Rationale: Prevents runtime errors and ensures maintainability
+
+```typescript
+// MUST: Typed function
+function getUser(id: string): Promise<User> { ... }
+```
+
+#### 2. Naming Conventions
+
+- MUST use `camelCase` for variables/functions, `PascalCase` for types/classes/components, `UPPER_SNAKE_CASE` for constants
+- Rationale: Consistent naming improves readability and onboarding
+
+```typescript
+// MUST: Naming
+const MAX_RETRIES = 3;
+class ResidentPortal { ... }
+```
+
+#### 3. Component Structure (React)
+
+- MUST keep components <200 lines and stateless where possible; split logic into hooks
+- Rationale: Simplifies testing and reuse
+
+```typescript
+// MUST: Use custom hook
+function useCommunityFeed() { ... }
+function CommunityFeed() {
+  const { posts } = useCommunityFeed();
+  return ( ... );
+}
+```
+
+#### 4. API Contracts
+
+- All API DTOs MUST be validated with `class-validator` (backend) or Zod (frontend)
+- Rationale: Prevents invalid data propagation
+
+```typescript
+// MUST: DTO validation
+export class CreateUserDto {
+  @IsEmail()
+  email: string;
+}
+```
+
+#### 5. Accessibility & i18n
+
+- All UI MUST be WCAG 2.1 AA compliant and use i18n-ready text
+- Rationale: Legal and user base requirements
+
+```typescript
+// MUST: Accessible button
+<button aria-label={t('submit_application')}>{t('Apply')}</button>
+```
+
+---
+
+### 4.2 MUST NOT Do
+
+#### 1. Monolithic Files/Modules
+
+- MUST NOT combine multiple domains or responsibilities in a single file
+- Rationale: Hinders maintainability and increases merge conflicts
+
+```typescript
+// MUST NOT: Mixed logic
+// user+project+community logic in one file
+```
+
+#### 2. Implicit Any or Untyped Code
+
+- MUST NOT use `any` or omit types in TypeScript
+- Rationale: Breaks type safety
+
+```typescript
+// MUST NOT: Implicit any
+function handle(data) { ... }
+```
+
+#### 3. Business Logic in Controllers or UI
+
+- MUST NOT place business logic in React components or NestJS controllers; move to services/hooks
+- Rationale: Violates separation of concerns
+
+```typescript
+// MUST NOT: Logic in controller
+@Post()
+create(@Body() dto) {
+  // complex business logic here (BAD)
+}
+```
+
+#### 4. Complex State Management
+
+- MUST NOT introduce Redux/RTK or global state unless justified; prefer Zustand or local state
+- Rationale: Complexity and bundle size
+
+#### 5. Hardcoded Strings/Values
+
+- MUST NOT hardcode text, URLs, or config; use env variables, i18n, or config files
+
+---
+
+## 5. Architecture Patterns
+
+### 5.1 Component/Module Structure
+
+- MUST follow domain-driven, feature-based structure in both frontend and backend
+- Each module/component MUST have its own folder with index, types, and tests
+
+```typescript
+// apps/frontend/components/community/index.ts
+export * from './CommunityFeed';
+// apps/frontend/components/community/CommunityFeed.test.tsx
+```
+
+### 5.2 Data Flow Patterns
+
+- Frontend:  
+    - Data fetching via Next.js server components or SWR/Zustand hooks
+    - All API requests MUST go through the BFF (NestJS Gateway)
+- Backend:  
+    - Controller → Service → Repository → Entity
+    - Use DTOs for input/output, never expose entities directly
+
+```typescript
+// MUST: Data flow in backend
+@Controller('projects')
+export class ProjectController {
+  constructor(private readonly service: ProjectService) {}
+  @Get()
+  findAll() { return this.service.getAllProjects(); }
+}
+```
+
+### 5.3 State Management Conventions
+
+- MUST use Zustand for shared state; keep state shape minimal and flat
+- MUST colocate state logic with feature (not global store)
+- MUST NOT use Redux/RTK
+
+```typescript
+// MUST: Zustand store
+import { create } from 'zustand';
+export const useUserStore = create(set => ({
+  user: null,
+  setUser: (user) => set({ user }),
+}));
+```
+
+### 5.4 API Design Standards
+
+- RESTful endpoints, versioned (`/api/v1/`)
+- MUST use HTTP status codes correctly (200, 201, 400, 401, 403, 404, 500)
+- All endpoints MUST require authentication unless public
+- API responses MUST be consistent: `{ data, error, meta }`
+
+```typescript
+// MUST: API response DTO
+export class ApiResponse<T> {
+  data: T;
+  error?: string;
+  meta?: Record<string, any>;
+}
+```
+
+---
+
+## Example Code Snippets
+
+```typescript
+// MUST: Typed, single-responsibility React component
+import { useCommunityFeed } from '@/hooks/useCommunityFeed';
+
+export function CommunityFeed() {
+  const { posts, error } = useCommunityFeed();
+  if (error) return <ErrorMessage message={error} />;
+  return <ul>{posts.map(post => <PostItem key={post.id} post={post} />)}</ul>;
+}
+// Clear separation of data-fetching (hook) and UI (component)
+```
+
+```typescript
+// MUST NOT: Business logic in component, untyped props
+function CommunityFeed(props) {
+  // fetch, filter, and mutate data directly here (BAD)
+  // props: any
+  ...
+}
+// This mixes concerns, is untyped, and hard to test
+```
+
+```typescript
+// MUST: NestJS service with dependency injection
+@Injectable()
+export class CommunityService {
+  constructor(private readonly repo: CommunityRepository) {}
+  async getFeed(userId: string): Promise<Post[]> {
+    return this.repo.findByUser(userId);
+  }
+}
+// Logic is testable, isolated, and DI-compliant
+```
+
+```typescript
+// MUST NOT: Direct DB access in controller
+@Controller('community')
+export class CommunityController {
+  @Get('feed')
+  async getFeed() {
+    // await getConnection().query('SELECT ...'); (BAD)
+  }
+}
+// Violates separation of concerns
+```
+
+```typescript
+// MUST: Error handling in API call
+try {
+  const res = await fetch('/api/v1/community');
+  if (!res.ok) throw new Error('Failed to load');
+  const data = await res.json();
+} catch (err) {
+  setError(err.message);
+}
+// Ensures user feedback and graceful degradation
+```
+
+```typescript
+// MUST NOT: Silent failure or unhandled promise
+fetch('/api/v1/community').then(res => res.json()).then(setData);
+// No error handling; user may see blank screen on failure
+```
+
+---
+
+## Quality Criteria
+
+- **Specificity:** All rules are tailored to Next.js, React, NestJS, and TypeScript.
+- **Actionability:** Each rule is accompanied by rationale and example.
+- **Consistency:** Naming, structure, and data flow are uniform across the codebase.
+- **Practicality:** Rules avoid over-engineering and are feasible for all contributors.
+- **Security & Accessibility:** Authentication, validation, and WCAG/i18n are first-class requirements.
+
+---
+
+**This guideline is the authoritative reference for all code in the ibookee unified platform project. All contributors MUST adhere to these standards for every commit and code review.**
